@@ -1,0 +1,24 @@
+{
+  "data": {},
+  "selfId": "3249098194",
+  "platform": "kook",
+  "type": "message",
+  "author": {
+    "userId": "1687744743",
+    "avatar": "https://img.kookapp.cn/avatars/2022-06/YI4m9kmcO406j06j.png?x-oss-process=style/icon",
+    "username": "機智的葉子",
+    "discriminator": "9046",
+    "nickname": "機智的葉子"
+  },
+  "userId": "1687744743",
+  "elements": [
+    { "type": "text", "attrs": { "content": "123" }, "children": [] }
+  ],
+  "messageId": "f6e929a6-84b1-4e6c-9ea8-7e6039e09ad8",
+  "timestamp": 1689126158443,
+  "isDirect": false,
+  "subtype": "group",
+  "guildId": "5914012087949280",
+  "channelName": "开发测试",
+  "channelId": "6424975750958344"
+}
