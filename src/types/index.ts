@@ -6,8 +6,10 @@ export interface IPlayer {
   level: number; // 玩家等级
   experience: number; // 玩家经验值
   gold: number; // 玩家金币数量
-  health: number; // 玩家当前生命值
-  mana: number; // 玩家当前法力值
+  current_health: number; // 玩家当前生命值
+  total_health: number; // 玩家总生命值
+  current_mana: number; // 玩家当前法力值
+  total_mana: number;//  玩家总法力值
   attack: number; // 玩家攻击力
   defense: number; // 玩家防御力
   location: string; // 玩家当前所在位置

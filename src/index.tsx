@@ -3,6 +3,7 @@ import { registerModal } from "./model";
 import { checkAuth, getPlayer } from "./utils/auth";
 
 import { MersenneTwister19937, integer } from "random-js";
+import { getExperience } from "./config/experience";
 const engine = MersenneTwister19937.autoSeed();
 const distribution = integer(1, 99);
 function generateNaturalLessThan100() {
@@ -89,127 +90,41 @@ export function apply(ctx: Context) {
     });
 
   //
-  ctx.command("个人信息").action(async ({ session }) => {
-    if (!(await checkAuth(ctx, session))) {
-      session.send("您当前尚未注册游戏，请输入：开始游戏 ，开始你的修仙之路");
-      return;
-    }
+  ctx
+    .command("个人信息")
+    .alias("me")
+    .action(async ({ session }) => {
+      if (!(await checkAuth(ctx, session))) {
+        session.send("您当前尚未注册游戏，请输入：开始游戏 ，开始你的修仙之路");
+        return;
+      }
 
-    let infoCard = [
-      {
-        type: "card",
-        size: "lg",
-        theme: "warning",
-        modules: [
-          {
-            type: "header",
-            text: {
-              type: "plain-text",
-              content: "个人信息",
-            },
-          },
-          {
-            type: "divider",
-          },
-          {
-            type: "section",
-            mode: "left",
-            accessory: {
-              type: "image",
-              src: "https://img.kaiheila.cn/assets/2021-01/FckX3MDe6S02i020.png",
-              circle: true,
-            },
-            text: {
-              type: "kmarkdown",
-              content: "机智的叶子 [炼气一阶]",
-            },
-          },
-          {
-            type: "section",
-            text: {
-              type: "kmarkdown",
-              content: "**状态**\n",
-            },
-          },
-          {
-            type: "section",
-            accessory: {},
-            text: {
-              type: "paragraph",
-              cols: 3,
-              fields: [
-                {
-                  type: "kmarkdown",
-                  content: "生命值",
-                },
-                {
-                  type: "kmarkdown",
-                  content: "法力值",
-                },
-                {
-                  type: "kmarkdown",
-                  content: "灵石",
-                },
-                {
-                  type: "kmarkdown",
-                  content: "100",
-                },
-                {
-                  type: "kmarkdown",
-                  content: "100",
-                },
-                {
-                  type: "kmarkdown",
-                  content: "0",
-                },
-              ],
-            },
-          },
-          {
-            type: "section",
-            accessory: {},
-            text: {
-              type: "paragraph",
-              cols: 3,
-              fields: [
-                {
-                  type: "kmarkdown",
-                  content: "攻击力",
-                },
-                {
-                  type: "kmarkdown",
-                  content: "防御力",
-                },
-                {
-                  type: "kmarkdown",
-                  content: "经验值",
-                },
-                {
-                  type: "kmarkdown",
-                  content: "100",
-                },
-                {
-                  type: "kmarkdown",
-                  content: "100",
-                },
-                {
-                  type: "kmarkdown",
-                  content: "0",
-                },
-              ],
-            },
-          },
-        ],
-      },
-    ];
-    let msg = {
-      type: "card",
-      theme: "primary.", // 卡片风格，默认为primay
-      color: "#aaaaaa", //16 进制色值
-      size: "lg", //目前只支持sm与lg, 如果不填为lg。 lg仅在PC端有效, 在移动端不管填什么，均为sm。
-      modules: [...infoCard],
-    };
+      const player = await getPlayer(ctx, session);
+      const playerExperience = getExperience(player.level);
 
-    session.send("状态");
-  });
+      session.send(
+        <>
+          <quote id={session.messageId}></quote>
+          <p>=========================</p>
+          <p>角色名称：{player.name}</p>
+          <p>修真境界：凝气一阶</p>
+          <p>修为：0/{playerExperience}</p>
+          <p>
+            生命值：{player.mana}/{player.health}
+          </p>
+          <p>
+            法力值：{player.mana}/{player.mana}
+          </p>
+          <p>灵石：{player.gold}</p>
+          <p>装备：无</p>
+          <p>技能：</p>
+          <p>1. 基础剑法 (等级：初阶)</p>
+          <p>2. 凝神术 (等级：初阶)</p>
+          <p>3. 气聚法术 (等级：初阶)</p>
+          <p></p>
+          <p>任务进度：当前无任务</p>
+          <p>=========================</p>
+        </>
+      );
+    });
 }
