@@ -3,7 +3,7 @@ import { registerModal } from "./model";
 import { checkAuth, getPlayer } from "./utils/auth";
 
 import { MersenneTwister19937, integer } from "random-js";
-import { getExperience } from "./config/experience";
+import { getCultivationRealm, getExperience } from "./config/experience";
 const engine = MersenneTwister19937.autoSeed();
 const distribution = integer(1, 99);
 function generateNaturalLessThan100() {
@@ -70,9 +70,11 @@ export function apply(ctx: Context) {
         kook: user["kook"],
         platform: user[session.platform],
         gold: 0,
-        health: 100,
-        mana: 100,
-        attack: 0,
+        current_health: 100,
+        total_health: 100,
+        current_mana: 100,
+        total_mana: 100,
+        attack: 10,
         defense: 10,
         location: "0,0",
         level: 1,
@@ -101,26 +103,26 @@ export function apply(ctx: Context) {
 
       const player = await getPlayer(ctx, session);
       const playerExperience = getExperience(player.level);
+      const playerRealm = getCultivationRealm(player.level);
 
       session.send(
         <>
           <quote id={session.messageId}></quote>
           <p>=========================</p>
           <p>角色名称：{player.name}</p>
-          <p>修真境界：凝气一阶</p>
+          <p>修真境界：{playerRealm}</p>
           <p>修为：0/{playerExperience}</p>
           <p>
-            生命值：{player.mana}/{player.health}
+            生命值：{player.current_health}/{player.total_health}
           </p>
           <p>
-            法力值：{player.mana}/{player.mana}
+            法力值：{player.current_mana}/{player.total_mana}
           </p>
+          <p>攻击力：{player.attack}</p>
+          <p>防御力：{player.defense}</p>
           <p>灵石：{player.gold}</p>
           <p>装备：无</p>
-          <p>技能：</p>
-          <p>1. 基础剑法 (等级：初阶)</p>
-          <p>2. 凝神术 (等级：初阶)</p>
-          <p>3. 气聚法术 (等级：初阶)</p>
+          <p>技能：无</p>
           <p></p>
           <p>任务进度：当前无任务</p>
           <p>=========================</p>
