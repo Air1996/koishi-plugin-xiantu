@@ -19,6 +19,7 @@
     "koishi": "4.13.7"
   },
   "dependencies": {
+    "dayjs": "^1.11.9",
     "decimal.js": "^10.4.3",
     "random-js": "^2.1.0"
   }

@@ -21,6 +21,29 @@ export function apply(ctx: Context) {
   // 扩展表结构
   registerModal(ctx);
 
+  // 注册回复模板
+  ctx.component("xiantu-content", (attrs, children, session) => {
+    let borderSize = 24;
+    let titleSize = attrs?.title?.length || 0;
+    let halfBorder = (borderSize - titleSize) / 2;
+    let borderStr = "";
+    for (let index = 0; index < halfBorder; index++) {
+      borderStr += "=";
+    }
+    let footerStr = "";
+    for (let index = 0; index < borderSize + titleSize; index++) {
+      footerStr += "=";
+    }
+    let titleStr = borderStr + attrs.title + borderStr;
+    return (
+      <>
+        <p>{titleStr}</p>
+        {children}
+        <p>{footerStr}</p>
+      </>
+    );
+  });
+
   // 注册指令
   xiulian.registerCommand(ctx);
 
@@ -113,17 +136,17 @@ export function apply(ctx: Context) {
         <>
           <quote id={session.messageId}></quote>
           <p>=========================</p>
-          <p>角色名称：{player.name}</p>
-          <p>修真境界：{playerRealm}</p>
+          <p>昵称：{player.name}</p>
+          <p>境界：{playerRealm}</p>
           <p>修为：0/{playerExperience}</p>
           <p>
-            生命值：{player.current_health}/{player.total_health}
+            气血：{player.current_health}/{player.total_health}
           </p>
           <p>
-            法力值：{player.current_mana}/{player.total_mana}
+            法力：{player.current_mana}/{player.total_mana}
           </p>
-          <p>攻击力：{player.attack}</p>
-          <p>防御力：{player.defense}</p>
+          <p>攻击：{player.attack}</p>
+          <p>防御：{player.defense}</p>
           <p>灵石：{player.gold}</p>
           <p>装备：无</p>
           <p>技能：无</p>

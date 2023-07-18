@@ -12,7 +12,6 @@ export interface IPlayer {
   total_health: number; // 玩家总生命值
   current_mana: number; // 玩家当前法力值
   total_mana: number; //  玩家总法力值
-  cult_start_time: Date; // 修炼开始时间
   attack: number; // 玩家攻击力
   defense: number; // 玩家防御力
   location: string; // 玩家当前所在位置
