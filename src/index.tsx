@@ -4,6 +4,7 @@ import { checkAuth, getPlayer } from "./utils/auth";
 
 import { MersenneTwister19937, integer } from "random-js";
 import { getCultivationRealm, getExperience } from "./config/experience";
+import xiulian from "./command/xiulian";
 const engine = MersenneTwister19937.autoSeed();
 const distribution = integer(1, 99);
 function generateNaturalLessThan100() {
@@ -19,6 +20,9 @@ export const Config: Schema<Config> = Schema.object({});
 export function apply(ctx: Context) {
   // 扩展表结构
   registerModal(ctx);
+
+  // 注册指令
+  xiulian.registerCommand(ctx);
 
   // 签到命令
   ctx

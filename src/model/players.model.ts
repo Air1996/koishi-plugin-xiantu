@@ -22,6 +22,7 @@ function register(ctx: Context) {
       current_health: "integer",
       current_mana: "integer",
       total_mana: "integer",
+      cult_start_time: "date",
       attack: "integer",
       defense: "integer",
       location: "string",
