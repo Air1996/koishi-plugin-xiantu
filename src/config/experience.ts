@@ -1,6 +1,10 @@
 import { Decimal } from 'decimal.js'
 
-// 获取每级升级所需经验值
+/**
+ *
+ * @param level 玩家等级
+ * @returns  每级升级所需经验值
+ */
 export function getExperience(level) {
   let levelDecimal = new Decimal(level);
   let experience = new Decimal(0)
@@ -80,9 +84,11 @@ export function getExperience(level) {
   return experience.toNumber().toFixed();
 }
 
-
-
-
+/**
+ *
+ * @param level 等级
+ * @returns 境界
+ */
 export function getCultivationRealm(level) {
   const chineseNumbers = ["一", "二", "三", "四", "五", "六", "七", "八", "九", "十"];
   const chineseNumbersUpper = ["壹", "贰", "叁", "肆", "伍", "陆", "柒", "捌", "玖", "拾"];

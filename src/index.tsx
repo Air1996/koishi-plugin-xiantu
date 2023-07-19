@@ -4,7 +4,11 @@ import { checkAuth, getPlayer } from "./utils/auth";
 
 import { MersenneTwister19937, integer } from "random-js";
 import { getCultivationRealm, getExperience } from "./config/experience";
+
 import xiulian from "./command/xiulian";
+import horseRace from "./command/horseRace";
+
+import { useComponent } from "./components";
 const engine = MersenneTwister19937.autoSeed();
 const distribution = integer(1, 99);
 function generateNaturalLessThan100() {
@@ -22,30 +26,12 @@ export function apply(ctx: Context) {
   registerModal(ctx);
 
   // 注册回复模板
-  ctx.component("xiantu-content", (attrs, children, session) => {
-    let borderSize = 24;
-    let titleSize = attrs?.title?.length || 0;
-    let halfBorder = (borderSize - titleSize) / 2;
-    let borderStr = "";
-    for (let index = 0; index < halfBorder; index++) {
-      borderStr += "=";
-    }
-    let footerStr = "";
-    for (let index = 0; index < borderSize + titleSize; index++) {
-      footerStr += "=";
-    }
-    let titleStr = borderStr + attrs.title + borderStr;
-    return (
-      <>
-        <p>{titleStr}</p>
-        {children}
-        <p>{footerStr}</p>
-      </>
-    );
-  });
+  useComponent(ctx);
 
   // 注册指令
   xiulian.registerCommand(ctx);
+  // 赛马 🐴
+  horseRace.registerCommand(ctx);
 
   // 签到命令
   ctx
@@ -66,7 +52,13 @@ export function apply(ctx: Context) {
         gold: player.gold + ramdomGold,
       });
 
-      session.send(`签到成功！获得灵石: +${ramdomGold}`);
+      session.send(
+        <xt-layout>
+          <p>
+            签到成功！获得灵石:<code>{ramdomGold}</code>
+          </p>
+        </xt-layout>
+      );
     });
 
   // 开始游戏
@@ -76,12 +68,6 @@ export function apply(ctx: Context) {
     .alias("start_game")
     .alias("register")
     .action(async ({ session }, name, gender, age) => {
-      console.log(
-        "%c [ session ]-29",
-        "font-size:13px; background:pink; color:#bf2c9f;",
-        session
-      );
-
       if (await checkAuth(ctx, session)) {
         session.send("您已踏上修仙之路，无法再入轮回");
         return;
@@ -131,14 +117,18 @@ export function apply(ctx: Context) {
       const player = await getPlayer(ctx, session);
       const playerExperience = getExperience(player.level);
       const playerRealm = getCultivationRealm(player.level);
+      let levelUpTips =
+        Number(player.experience) >= Number(playerExperience)
+          ? "【可突破】"
+          : "";
 
       session.send(
-        <>
-          <quote id={session.messageId}></quote>
-          <p>=========================</p>
+        <xt-layout>
           <p>昵称：{player.name}</p>
           <p>境界：{playerRealm}</p>
-          <p>修为：0/{playerExperience}</p>
+          <p>
+            修为：{player.experience}/{playerExperience} {levelUpTips}
+          </p>
           <p>
             气血：{player.current_health}/{player.total_health}
           </p>
@@ -152,8 +142,7 @@ export function apply(ctx: Context) {
           <p>技能：无</p>
           <p></p>
           <p>任务进度：当前无任务</p>
-          <p>=========================</p>
-        </>
+        </xt-layout>
       );
     });
 }
