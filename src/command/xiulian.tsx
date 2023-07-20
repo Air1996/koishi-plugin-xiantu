@@ -70,13 +70,18 @@ function registerCommand(ctx: Context) {
         cultivate_at: new Date(),
       });
       session.send(
-        <>
-          <quote id={session.messageId}></quote>
-          <p>=========================</p>
-          <p>你来到一座看似幽静的山林,开始了修炼,</p>
-          <p>默诵咒语,将真气引入丹田,内丹渐长。</p>
-          <p>=========================</p>
-        </>
+        <xt-layout>
+          <p>你闭上双眼，深吸一口气，感受到</p>
+          <p>天地间弥漫的灵气。你的心境逐渐</p>
+          <p>平静，慢慢进入修炼的状态。</p>
+          <p></p>
+          <p>
+            修炼限制：<code>4小时</code>
+          </p>
+          <p>
+            修炼加成：<code>无</code>
+          </p>
+        </xt-layout>
       );
 
       // cultivate_at
@@ -113,7 +118,7 @@ function registerCommand(ctx: Context) {
         session.send(
           <xt-layout>
             <p>
-              修炼时长:
+              修炼时长：
               <code>
                 <i18n:time value={cult_time} />
               </code>
@@ -145,7 +150,17 @@ function registerCommand(ctx: Context) {
 
       session.send(
         <xt-layout>
-          <p>修炼结束</p>
+          <p>修炼结束，你慢慢睁开眼睛，感觉</p>
+          <p>全身的气息都变得不同了，你的身</p>
+          <p>体似乎变得更加轻盈，内力也变得</p>
+          <p>更加强大。</p>
+          <p></p>
+          <p>
+            修炼时长：
+            <code>
+              <i18n:time value={cult_time}></i18n:time>
+            </code>
+          </p>
           <p>
             获得修为：<code>{cult}</code>
           </p>

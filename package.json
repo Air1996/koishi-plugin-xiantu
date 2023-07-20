@@ -22,5 +22,13 @@
     "dayjs": "^1.11.9",
     "decimal.js": "^10.4.3",
     "random-js": "^2.1.0"
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-customizable"
+    }
+  },
+  "devDependencies": {
+    "cz-customizable": "^7.0.0"
   }
 }
