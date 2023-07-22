@@ -199,6 +199,19 @@ function registerCommand(ctx: Context) {
             <p>当前境界：{currentRealm}</p>
           </xt-layout>
         );
+      } else {
+        session.send(
+          <xt-layout>
+            <p>突破失败!</p>
+            <p>您的修为尚浅，无法突破！</p>
+            <p>
+              当前修为：<code>{player.experience}</code>
+            </p>
+            <p>
+              突破所需：<code>{playerExperience}</code>
+            </p>
+          </xt-layout>
+        );
       }
     });
 }

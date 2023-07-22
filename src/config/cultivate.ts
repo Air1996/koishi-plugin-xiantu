@@ -113,7 +113,3 @@ export function getExperience(level) {
   return experience.toNumber().toFixed();
 }
 
-
-for (let index = 1; index < 100; index++) {
-  console.log(`[ level${index} 攻击力提升 ] >`, getExperience(index))
-}
